@@ -1,4 +1,2 @@
-ud989-cat-clicker-ko-starter
-============================
-
-ud989-cat-clicker-ko-starter
+# click-the-cat-2
+A clone of click-the-cat but using the Knockout MVVM framework.
