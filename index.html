@@ -2,24 +2,120 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="static/css/styles.css">
+    <link rel="icon" href="static/img/cat-icon.ico">
     <title>Cat Clicker</title>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 
 <body>
-    <div>
-        <ul data-bind="foreach: catList">
-            <li data-bind="text: name, click: $root.setCat"></li>
-        </ul>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Change My Details</h4>
+                </div>
+                <div class="modal-body" data-bind="with: currentCat">
+                    <form>
+                        <div class="form-group">
+                            <label for="catName">The name of this cat.</label>
+                            <input type="text" class="form-control" id="catName" name="catName" data-catIndex='0' data-bind='value: name'>
+                        </div>
+                        <div class="form-group">
+                            <label for="imageUrl">Where is this cat's photo</label>
+                            <input type="text" class="form-control" id="imageUrl" name="imageUrl" data-bind='value: imgSrc'>
+                        </div>
+                        <div class="form-group">
+                            <label for="clickCount">How many times this poor kitten got clicked</label>
+                            <input type="text" class="form-control" id="clickCount" name="clickCount" data-bind='value: clickCount'>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary saveChanges" data-bind="click: saveData">Save changes</button>
+                </div>
+            </div>
+        </div>
     </div>
-    <div data-bind="with: currentCat">
-        <h2 data-bind="text: name"></h2>
-        <h2 data-bind="text: level"></h2>
-        <div data-bind="text: clickCount"></div>
-        <img src="" alt="Cute Cat" data-bind="click: $root.incrementCounter, attr: {src: imgSrc}">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button> -->
+                <a class="navbar-brand" href="#">
+                    <img style="max-width:32px; margin-top: 4px;" src="static/img/cat-icon.ico" alt="Cat Clicker">
+                </a>
+                <p class="navbar-text lead" id="name" data-bind="text: currentCat().name"></p>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="row">
+                    <ul class="list-group" id="list" data-bind="foreach: catList">
+                        <li class="list-group-item" data-bind="click: $root.setCat">
+                            <span data-bind="text: name"></span>
+                            <span class="badge" data-bind="text: clickCount"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <ul class="list-group" data-bind="with: currentCat">
+                    <li class="list-group-item">
+                        Click the Cat
+                        <span class="badge" id="count" data-bind="text: clickCount"></span>
+                    </li>
+                    <li class="list-group-item">
+                        <img src="..." class="img-responsive" alt="A Kitten" data-bind="click: $root.incrementCounter, attr: {src: imgSrc}">
+                    </li>
+                    <li class="list-group-item" id="admin">
+                        <!-- <span class="label label-danger pull-right">Admin</span> -->
+                        <button type="button" class="btn btn-danger btn-xs pull-right" data-toggle="modal" data-target="#myModal">Admin</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- form field validator -->
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
+    <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+    <!-- name generator -->
+    <script src="static/js/chance.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- where the magic happens -->
     <script src="js/lib/knockout-3.2.0.js"></script>
     <script src="js/app.js"></script>
+    <script src="static/js/validator.js"></script>
 </body>
 
 </html>

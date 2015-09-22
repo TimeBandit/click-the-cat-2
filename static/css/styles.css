@@ -1,0 +1,19 @@
+body {
+	/*min-height: 2000px;*/
+	padding-top: 70px;
+}
+
+#list {
+	padding: 9px;
+	cursor: pointer;
+}
+
+#admin {
+	padding-top: 0px;
+	padding-bottom: 29px;
+	border-top: none;
+}
+
+.form-group {
+	margin: 20px 20px;
+}

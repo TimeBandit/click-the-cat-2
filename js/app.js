@@ -73,6 +73,11 @@ var ViewModel = function() {
     self.setCat = function (cat) {
     	self.currentCat(cat);
     };
+
+    self.saveData = function(){
+        self.currentCat().clickCount(+$('#clickCount').val());
+        $('#myModal').modal('hide');
+    };
 };
 
 ko.applyBindings(new ViewModel());
